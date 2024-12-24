@@ -1,15 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { useNavigation } from 'expo-router';
+import Buttoncls from '../elements/Buttoncls';
+import axios from 'axios';
+import { Base_Url } from '@/utils/constant';
+import { removeUser } from '../utils/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function ModalScreen() {
+  const navigation = useNavigation();
+  const user = useSelector((store)=>store.user)
+  const dispatch = useDispatch();
+
+  const handlelogout = async () =>{
+    try {
+      const res = await axios.post(Base_Url + "/Logout", {} ,{withCredentials: true})
+      dispatch(removeUser());
+      return navigation.navigate('(auth)');
+    } catch (error) {
+      console.error(error)
+      // redirect to error page
+    }
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/modal.tsx" />
+      <Buttoncls  title={"Logout"} onPress={handlelogout} width={200}/>
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />

@@ -1,11 +1,14 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Link, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
-
+import Fontisto from '@expo/vector-icons/Fontisto';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -22,6 +25,10 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarStyle: {
+          backgroundColor:Colors[colorScheme ?? 'light'].backgroundColor, // Tab bar background color
+          borderTopWidth: 0, // Optional: Remove border on top of tab bar
+        },
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
@@ -29,14 +36,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Feed',
+          tabBarIcon : ({ color }) =><MaterialCommunityIcons name="file-find-outline" size={25}   color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
                 {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
+                  <Fontisto name="player-settings"
                     size={25}
                     color={Colors[colorScheme ?? 'light'].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
@@ -47,11 +53,26 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="two"
+   
+       <Tabs.Screen
+        name="request"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Request',
+          tabBarIcon: ({ color }) => <AntDesign name="downcircleo" size={25} color={color}  /> ,
+        }}
+      />
+       <Tabs.Screen
+        name="connection"
+        options={{
+          title: 'connection',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="connectdevelop" size={25} color={color} />,
+        }}
+      />
+         <Tabs.Screen
+        name="myprofile"
+        options={{
+          title: 'myprofile',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account-convert" size={25} color={color} />,
         }}
       />
     </Tabs>
